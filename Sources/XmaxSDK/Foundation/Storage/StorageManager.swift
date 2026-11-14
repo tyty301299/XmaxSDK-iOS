@@ -262,7 +262,9 @@ final class StorageManager: StorageManaging, Sendable {
                 bucket: configuration.bucket,
                 preservePath: false
             )
-            guard let endpoint = QCloudEndPoint(literalURL: url) else {
+            // COS requests require the concrete endpoint implementation. The base
+            // QCloudEndPoint raises an Objective-C exception during request creation.
+            guard let endpoint = QCloudCOSXMLEndPoint(literalURL: url) else {
                 throw uploadError(message: "Storage endpoint is invalid")
             }
             endpoint.regionName = configuration.region

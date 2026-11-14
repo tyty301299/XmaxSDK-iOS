@@ -741,7 +741,7 @@ final class StreamController: StreamControlling, RtcEventListener,
                     for try await _ in stream {
                         return
                     }
-                } onCancel: {
+                } onCancel: { [weak self] in
                     self?.rejectGenerationStart(
                         taskID: taskID,
                         error: XmaxError(

@@ -426,7 +426,7 @@ final class AgoraRtcRoom: RtcRoom, @unchecked Sendable {
     func awaitPendingMessages() async throws {
         let sender = try platform.lock.withLock {
             try requireJoined()
-            return sender
+            return self.sender
         }
         try await sender?.flush()
     }

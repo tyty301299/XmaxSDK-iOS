@@ -79,7 +79,7 @@ final class RtcManager: RtcManaging, @unchecked Sendable {
             guard engineLease == nil else {
                 return nil
             }
-            if var initialization {
+            if var initialization = self.initialization {
                 initialization.waiterIDs.insert(waiterID)
                 self.initialization = initialization
                 return initialization
@@ -87,7 +87,7 @@ final class RtcManager: RtcManaging, @unchecked Sendable {
 
             let initialization = Initialization(
                 id: UUID(),
-                task: Task {
+                task: Task { [engineManager = self.engineManager] in
                     try await engineManager.acquire()
                 },
                 waiterIDs: [waiterID]
